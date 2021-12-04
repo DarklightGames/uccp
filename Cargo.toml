@@ -15,4 +15,3 @@ crc = "2.1.0"
 humantime = "2.1.0"
 rayon = "1.5.1"
 unrealscriptplus = { git = "https://github.com/DarklightGames/UnrealScriptPlus", branch = "main" }
-#unrealscriptplus = { path = "C:/UnrealScriptPlus" }
