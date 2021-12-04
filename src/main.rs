@@ -76,7 +76,7 @@ impl UccError {
 
 impl ToString for UccError {
     fn to_string(&self) -> String {
-        format!("{:?}: {} ({}) : {}\n", self.severity, self.path, self.line.unwrap_or(0), self.message)
+        format!("{:?}: {} ({}) : {}", self.severity, self.path, self.line.unwrap_or(0), self.message)
     }
 }
 
