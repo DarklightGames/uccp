@@ -93,7 +93,7 @@ fn main() {
 
     // Remove the UNC prefix from the directory
     let d = dir.to_str().unwrap().to_string();
-    dir = PathBuf::from(Path::new(&d[4..]));
+    dir = PathBuf::from(Path::new(d.trim_start_matches("//?/")));
 
     assert!(dir.exists(), "error: {:?} is not a directory", dir);
 
@@ -444,6 +444,12 @@ fn main() {
         let mut ucc_command = Command::new(&ucc_path);
         ucc_command.arg("make");
         ucc_command.arg(format!("-mod={}", mod_name));
+        if args.is_present("debug") {
+            ucc_command.arg("-debug");
+        }
+        if args.is_present("quiet") {
+            ucc_command.arg("-silentbuild");
+        }
         let mut output = ucc_command.spawn().expect("ucc command failed to spawn");
         output.wait().unwrap();
     }

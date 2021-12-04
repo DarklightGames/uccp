@@ -1,11 +1,11 @@
 name: uccp
 version: "0.1"
 author: Colin Basnett <cmbasnett@gmail.com>
-about: Command-line interface for building mods for UnrealScript
+about: Command-line interface for building mods for Unreal Engine 2.x
 args:
   - dir:
       long: directory
-      help: Root directory
+      help: "Root directory (default: \".\")"
       takes_value: true
   - mod:
       help: Mod folder name
