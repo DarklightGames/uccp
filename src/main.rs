@@ -80,21 +80,35 @@ impl ToString for UccError {
     }
 }
 
+#[derive(PartialEq, Eq, Copy, Clone)]
+enum PackageStatus {
+    Ok,
+    SourceMismatch,
+    Cascade
+}
+
+impl ToString for PackageStatus {
+    fn to_string(&self) -> String {
+        String::from(match &self {
+            PackageStatus::Ok => "Up-to-date",
+            PackageStatus::SourceMismatch => "Out-of-date",
+            PackageStatus::Cascade => "Dependency out-of-date",
+        })
+    }
+}
+
 fn main() {
     let yaml = load_yaml!("cli.yml");
     let args = App::from_yaml(yaml).get_matches();
-
     let mod_name = args.value_of("mod").unwrap();
 
+    // root directory
     let dir_string = args.value_of("dir").unwrap_or(".");
     let mut dir = Path::new(dir_string)
         .canonicalize()
         .expect(format!("directory {:?} could not be made canonical", dir_string).as_str());
-
-    // Remove the UNC prefix from the directory
     let d = dir.to_str().unwrap().to_string();
     dir = PathBuf::from(Path::new(d.trim_start_matches(r"\\?\")));
-
     assert!(dir.exists(), "error: {:?} is not a directory", dir);
 
     // system directory
@@ -181,28 +195,11 @@ fn main() {
 
     if args.is_present("clean") && config_path.is_file() {
         // clean build deletes the existing mod config
-        std::fs::remove_file(config_path.as_path()).expect("failed to remove a file!")
+        std::fs::remove_file(config_path.as_path()).expect("failed to remove config file!")
     }
 
     // get packages from generated INI?
     let packages = default_packages.clone();
-
-    #[derive(PartialEq, Eq, Copy, Clone)]
-    enum PackageStatus {
-        Ok,
-        SourceMismatch,
-        Cascade
-    }
-
-    impl ToString for PackageStatus {
-        fn to_string(&self) -> String {
-            String::from(match &self {
-                PackageStatus::Ok => "Up-to-date",
-                PackageStatus::SourceMismatch => "Out-of-date",
-                PackageStatus::Cascade => "Dependency out-of-date",
-            })
-        }
-    }
 
     let mut package_statuses: HashMap<String, PackageStatus> = HashMap::new();
     let mut changed_packages = HashSet::new();
@@ -276,7 +273,7 @@ fn main() {
         .collect::<Vec<String>>());
     let mut compiled_packages: HashSet<String> = HashSet::new();
 
-    let ucc_log_path = sys_path.join("UCC.log");
+    let ucc_log_path = sys_path.join("ucc.log");
 
     if packages_to_compile.is_empty() {
         println!("No packages were marked for compilation (no changes detected)");
@@ -470,6 +467,7 @@ fn main() {
         }
     }
 
+    // run ucc dumpint on all compiled & changed packages, if specified
     if args.is_present("dumpint") {
         println!("Running ucc dumpint (note: output may be garbled due to ucc writing to stdout in parallel)");
         let mut threads = vec![];
@@ -493,7 +491,7 @@ fn main() {
             if let Some(extension) = path.extension() {
                 if extension == "int" {
                     let mut package_path = path.clone();
-                    package_path.set_extension(".u");
+                    package_path.set_extension("u");
                     let file_name = package_path.file_name().unwrap().to_str().unwrap();
                     if packages_to_compile.contains(file_name) {
                         std::fs::copy(&path, mod_sys_path.join(path.file_name().unwrap())).unwrap();
@@ -505,13 +503,9 @@ fn main() {
     }
 
     // rewrite ucc.log to be the contents of the original ucc make command (so that WOTgreal can parse it correctly)
-    {
-        if let Ok(mut file) = File::create(&ucc_log_path) {
-            file.write(&ucc_log_contents[..]).unwrap();
-        }
+    if let Ok(mut file) = File::create(&ucc_log_path) {
+        file.write(&ucc_log_contents[..]).unwrap();
     }
-
-    let did_build_succeed = compiled_packages.len() == packages_to_compile.len();
 
     for package_name in &compiled_packages {
         let package_name = package_name.strip_suffix(".u").unwrap();
@@ -539,6 +533,7 @@ fn main() {
                         ).as_str());
 
     // exit with an error code if the build fails
+    let did_build_succeed = compiled_packages.len() == packages_to_compile.len();
     if !did_build_succeed {
         exit(1);
     }
