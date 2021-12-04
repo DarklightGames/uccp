@@ -93,7 +93,7 @@ fn main() {
 
     // Remove the UNC prefix from the directory
     let d = dir.to_str().unwrap().to_string();
-    dir = PathBuf::from(Path::new(d.trim_start_matches("//?/")));
+    dir = PathBuf::from(Path::new(d.trim_start_matches(r"\\?\")));
 
     assert!(dir.exists(), "error: {:?} is not a directory", dir);
 
