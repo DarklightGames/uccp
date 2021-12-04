@@ -24,9 +24,9 @@ FLAGS:
     -d, --debug         Compile debug packages (for use with UDebugger)
     -i, --dumpint       Dump localization files
     -h, --help          Prints help information
-        --no_cascade    Ignore package dependencies
-        --no_ucc        Do not run UCC
-        --no_usp        Do not run UnrealScriptPlus
+        --no-cascade    Ignore package dependencies
+        --no-ucc        Do not run UCC
+        --no-usp        Do not run UnrealScriptPlus
     -q, --quiet         Minimal output during UCC compile
     -V, --version       Prints version information
 

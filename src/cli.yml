@@ -11,9 +11,9 @@ args:
       help: Mod folder name
       required: true
       takes_value: true
-  - no_cascade:
+  - no-cascade:
       help: Ignore package dependencies
-      long: no_cascade
+      long: no-cascade
       required: false
   - clean:
       short: c
@@ -31,9 +31,9 @@ args:
       short: q
       long: quiet
       help: Minimal output during UCC compile
-  - no_ucc:
-      long: no_ucc
+  - no-ucc:
+      long: no-ucc
       help: Do not run UCC
-  - no_usp:
-      long: no_usp
+  - no-usp:
+      long: no-usp
       help: Do not run UnrealScriptPlus

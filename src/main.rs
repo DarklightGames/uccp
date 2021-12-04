@@ -232,7 +232,7 @@ fn main() {
             continue
         }
         let mut package_status = PackageStatus::Ok;
-        if !args.is_present("no_cascade") && package_build_count > 0 {
+        if !args.is_present("no-cascade") && package_build_count > 0 {
             package_status = PackageStatus::Cascade;
         }
         let package_src_dir = dir.join(package.clone()).join("Classes");
@@ -295,7 +295,7 @@ fn main() {
         contents
     };
 
-    if !args.is_present("no_usp") {
+    if !args.is_present("no-usp") {
         println!("Scanning files with UnrealScriptPlus...");
 
         let mut manifest_mtime = None;
@@ -391,7 +391,7 @@ fn main() {
         ucc_log_contents = read_ucc_log_contents();
     }
 
-    if args.is_present("no_ucc") {
+    if args.is_present("no-ucc") {
         println!("Skipping compilation because -skip_ucc was passed as an argument to the program");
         exit(0);
     }
