@@ -1,0 +1,39 @@
+name: uccp
+version: "0.1"
+author: Colin Basnett <cmbasnett@gmail.com>
+about: Command-line interface for building mods for UnrealScript
+args:
+  - dir:
+      long: directory
+      help: Root directory
+      takes_value: true
+  - mod:
+      help: Mod folder name
+      required: true
+      takes_value: true
+  - no_cascade:
+      help: Ignore package dependencies
+      long: no_cascade
+      required: false
+  - clean:
+      short: c
+      long: clean
+      help: Compile all packages
+  - dumpint:
+      short: i
+      long: dumpint
+      help: Dump localization files
+  - debug:
+      short: d
+      long: debug
+      help: Compile debug packages (for use with UDebugger)
+  - quiet:
+      short: q
+      long: quiet
+      help: Minimal output during UCC compile
+  - no_ucc:
+      long: no_ucc
+      help: Do not run UCC
+  - no_usp:
+      long: no_usp
+      help: Do not run UnrealScriptPlus

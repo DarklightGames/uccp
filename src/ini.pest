@@ -1,0 +1,11 @@
+WHITESPACE = { " " | "\t" | "\r" }
+
+newline = _{ "\n" }
+section = { (!"]" ~ !newline ~ ANY)+ }
+section_outer = _{ "[" ~ section ~ "]" }
+key = { (!"=" ~ ANY)+ }
+value = @{ (!newline ~ !"\r" ~ ANY)* }
+property = { key ~ "=" ~ value }
+line = _{ section_outer | property }
+lines = _{ line ~ (newline+ ~ line)* }
+ini = { lines? }
