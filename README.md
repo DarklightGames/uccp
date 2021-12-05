@@ -1,3 +1,5 @@
+![example event parameter](https://github.com/DarklightGames/uccp/actions/workflows/rust.yml/badge.svg)
+
 # uccp
 `uccp` is a custom build tool for [Darkest Hour: Europe '44-'45](https://github.com/DarklightGames/DarkestHour) written in Rust.
 
