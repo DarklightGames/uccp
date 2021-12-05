@@ -1,9 +1,9 @@
 # uccp
 `uccp` is a custom build tool for [Darkest Hour: Europe '44-'45](https://github.com/DarklightGames/DarkestHour) written in Rust.
 
-It seeks to improve upon the bare-bones build tools offered by the Unreal Engine 2.5 build tool `ucc` by automating common build tasks.
+It seeks to improve upon the bare-bones build tools offered by the Unreal Engine 2.x build tool `ucc` by automating common build tasks.
 
-Though `uccp` was designed with a particular mod in mind, it can also be used with any mod for the Unreal 2 engine.
+Though `uccp` was designed with a particular mod in mind, it can also be used with any mod for Unreal Engine 2.x.
 
 In contrast to `ucc`, `uccp` will automatically:
 
