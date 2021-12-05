@@ -40,7 +40,7 @@ Process finished with exit code 0
 
 ```
 
-For example, if you wanted to run a `clean` build of the mod `MyMod` in the root directory `C:/Root/Directory`, you would invoke the following:
+For example, if you wanted to run a build of the mod `MyMod` in the root directory `C:/Root/Directory`, you would invoke the following:
 
 ```shell
 uccp.exe --directory C:/Root/Directory MyMod 
